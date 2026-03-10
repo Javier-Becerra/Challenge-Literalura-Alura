@@ -32,7 +32,9 @@ public class LibroServicio {
         String json = api.buscarJsonPorTitulo(titulo);
         DatosRespuesta datos = conversor.obtenerDatos(json, DatosRespuesta.class);
         if (datos == null || datos.results().isEmpty()) {
+            ystem.out.println("\n--------------------------------------");
             System.out.println("No se encontraron libros con ese título");
+            System.out.println("--------------------------------------");
             return;
         }
 
@@ -52,13 +54,17 @@ public class LibroServicio {
                 ));
             }
         }
+        System.out.println("\n--------------------------------------");
         System.out.println("Libro registrado correctamente");
+        System.out.println("--------------------------------------");
     }
 
      public void listarLibros() {
        List<Libro> libros = repoLibro.findAll();
        if (libros.isEmpty()) {
+           System.out.println("\n--------------------------------------");
            System.out.println("No hay libros registrados");
+           System.out.println("--------------------------------------");
            return;
        }
        libros.forEach(l -> {
@@ -70,7 +76,7 @@ public class LibroServicio {
            sb.append("Idiomas: ").append(l.getIdiomas()).append("\n");
            sb.append("Autor: ").append(l.getAutor().getName());
 
-           System.out.println("--------------------------------------\n");
+           System.out.println("\n--------------------------------------");
            System.out.println(sb.toString());
            System.out.println("--------------------------------------");
        });
@@ -79,7 +85,7 @@ public class LibroServicio {
     public void listarAutores() {
         List<Autor> autores = repoAutor.findAll();
         if (autores.isEmpty()) { System.out.println("No hay autores registrados"); return; }
-        System.out.println("--------------------------------------\n");
+        System.out.println("\n--------------------------------------");
         autores.forEach(a -> System.out.println(
                 a.getName() + " (" + a.getBirthYear() + " - " + a.getDeathYear() + ")"));
         System.out.println("--------------------------------------");
@@ -92,7 +98,7 @@ public class LibroServicio {
                 .collect(Collectors.toList());
         if (vivos.isEmpty()) System.out.println("No hay autores vivos en el año " + anio);
         else
-            System.out.println("--------------------------------------\n");
+            System.out.println("\n--------------------------------------");
         vivos.forEach(a -> System.out.println(a.getName()));
             System.out.println("--------------------------------------");
     }
@@ -104,13 +110,14 @@ public class LibroServicio {
                 .filter(l -> l.getDescargas() != null)
                 .mapToDouble(Libro::getDescargas)
                 .summaryStatistics();
-
+        System.out.println("\n--------------------------------------");
         System.out.println("\nEstadísticas de descargas:");
 
         System.out.println("Cantidad de libros: " + stats.getCount());
         System.out.println("Promedio de descargas: " + stats.getAverage());
         System.out.println("Máximo de descargas: " + stats.getMax());
         System.out.println("Mínimo de descargas: " + stats.getMin());
+        System.out.println("--------------------------------------");
     }
 
     public void top10LibrosDescargados(){
@@ -121,19 +128,22 @@ public class LibroServicio {
                 .toList();
 
         if(top10.isEmpty()){
+            System.out.println("\n--------------------------------------");
             System.out.println("No hay libros registrados.");
+            System.out.println("--------------------------------------");
             return;
         }
-
+        System.out.println("\n--------------------------------------");
         System.out.println("\nTop 10 libros más descargados:\n");
-
+        
         top10.forEach(l ->
                 System.out.println(
                         l.getTitle() +
                                 " | Autor: " + l.getAutor().getName() +
                                 " | Descargas: " + l.getDescargas()
                 )
-        );
+       );
+        System.out.println("--------------------------------------");
     }
 
 
@@ -142,10 +152,12 @@ public class LibroServicio {
         List<Autor> autores = repoAutor.findByBirthYearGreaterThan(anio);
 
         if(autores.isEmpty()){
+            System.out.println("\n--------------------------------------");
             System.out.println("No hay autores nacidos después de ese año.");
+            System.out.println("--------------------------------------");
             return;
         }
-
+        System.out.println("\n--------------------------------------");
         System.out.println("\nAutores nacidos después de " + anio + ":\n");
 
         autores.forEach(a ->
@@ -154,6 +166,7 @@ public class LibroServicio {
                                 " | Año nacimiento: " + a.getBirthYear()
                 )
         );
+        System.out.println("--------------------------------------");
     }
 
     public void librosPorIdioma(String idioma) {
@@ -162,9 +175,11 @@ public class LibroServicio {
                 .collect(Collectors.toList());
 
         if (filtrados.isEmpty()) {
+            System.out.println("\n--------------------------------------");
             System.out.println("No se encontraron libros en idioma '" + idioma + "'");
+            System.out.println("--------------------------------------");
         } else {
-            System.out.println("--------------------------------------\n");
+            System.out.println("\n--------------------------------------");
             filtrados.forEach(l -> {
                 System.out.println("Nombre: " + l.getTitle());
                 System.out.println("Autor: " + l.getAutor().getName());
@@ -172,4 +187,5 @@ public class LibroServicio {
             });
         }
     }
+
 }
